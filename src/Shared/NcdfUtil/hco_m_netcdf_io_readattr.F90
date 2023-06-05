@@ -11,13 +11,13 @@
 MODULE HCO_m_netcdf_io_readattr
 !
 ! !USES:
-
+  use netcdf
+  
   USE m_do_err_out
 
   IMPLICIT NONE
   PRIVATE
 
-  INCLUDE "netcdf.inc"
 !
 ! !PUBLIC MEMBER FUNCTIONS:
 !
@@ -125,20 +125,20 @@ CONTAINS
     attValue = ''
 
     ! Check if VARNAME is a valid variable
-    status = Nf_Inq_Varid ( fId, varName, vId )
+    status = Nf90_Inq_Varid ( fId, varName, vId )
 
     ! Exit w/ error message if VARNAME is not valid
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_C: ' // TRIM( varName )        // &
-                 ', '                   // Nf_Strerror( status )
+                 ', '                   // Nf90_Strerror( status )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
     ENDIF
 
     !  Get the attribute
-    status = Nf_Get_Att_Text( fId, vId, attName, attValue )
+    status = Nf90_Get_Att( fId, vId, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_C: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -193,20 +193,20 @@ CONTAINS
     attValue = 0
 
     ! Check if VARNAME is a valid variable
-    status = Nf_Inq_Varid ( fId, varName, vId )
+    status = Nf90_Inq_Varid ( fId, varName, vId )
 
     ! Exit w/ error message if VARNAME is not valid
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_I4: ' // TRIM( varName )        // &
-                 ', '                   // Nf_Strerror( status )
+                 ', '                   // Nf90_Strerror( status )
        CALL Do_Err_Out ( errMsg, .TRUE., 1, fId, 0, 0, 0.0d0, 0.0d0)
     ENDIF
 
     ! Get the attribute
-    status = Nf_Get_Att_Int( fId, vId, attName, attValue )
+    status = Nf90_Get_Att( fId, vId, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_I4: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -261,20 +261,20 @@ CONTAINS
     attValue = 0e0
 
     ! Check if VARNAME is a valid variable
-    status = Nf_Inq_Varid ( fId, varName, vId )
+    status = Nf90_Inq_Varid ( fId, varName, vId )
 
     ! Exit w/ error message if VARNAME is not valid
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_R4: ' // TRIM( varName )        // &
-                 ', '                   // Nf_Strerror( status )
+                 ', '                   // Nf90_Strerror( status )
        CALL Do_Err_Out ( errMsg, .TRUE., 1, fId, 0, 0, 0.0d0, 0.0d0)
     ENDIF
 
     ! Get the attribute
-    status = Nf_Get_Att_Real( fId, vId, attName, attValue )
+    status = Nf90_Get_Att( fId, vId, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_R4: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -329,20 +329,20 @@ CONTAINS
     attValue = 0d0
 
     ! Check if VARNAME is a valid variable
-    status = Nf_Inq_Varid ( fId, varName, vId )
+    status = Nf90_Inq_Varid ( fId, varName, vId )
 
     ! Exit w/ error message if VARNAME is not valid
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_R8: ' // TRIM( varName )        // &
-                 ', '                   // Nf_Strerror( status )
+                 ', '                   // Nf90_Strerror( status )
        CALL Do_Err_Out ( errMsg, .TRUE., 1, fId, 0, 0, 0.0d0, 0.0d0)
     ENDIF
 
     ! Get the attribute
-    status = Nf_Get_Att_Double( fId, vId, attName, attValue )
+    status = Nf90_Get_Att( fId, vId, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_R8: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -397,20 +397,21 @@ CONTAINS
     attValue = 0
 
     ! Check if VARNAME is a valid variable
-    status = Nf_Inq_Varid ( fId, varName, vId )
+    status = Nf90_Inq_Varid ( fId, varName, vId )
 
     ! Exit w/ error message if VARNAME is not valid
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_I4_arr: ' // TRIM( varName )        // &
-                 ', '                        // Nf_Strerror( status )
+                 ', '                        // Nf90_Strerror( status )
        CALL Do_Err_Out ( errMsg, .TRUE., 1, fId, 0, 0, 0.0d0, 0.0d0)
     ENDIF
 
     ! Get the attribute
-    status = Nf_Get_Att_Int( fId, vId, attName, attValue )
+!    status = Nf_Get_Att_Int( fId, vId, attName, attValue )
+    status = nf90_get_att( fId, vId, attName, attValue ) !(ncid, varid, name, values)
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_I4_arr: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -465,20 +466,20 @@ CONTAINS
     attValue = 0e0
 
     ! Check if VARNAME is a valid variable
-    status = Nf_Inq_Varid ( fId, varName, vId )
+    status = Nf90_Inq_Varid ( fId, varName, vId )
 
     ! Exit w/ error message if VARNAME is not valid
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_R4_arr: ' // TRIM( varName )        // &
-                 ', '                        // Nf_Strerror( status )
+                 ', '                        // Nf90_Strerror( status )
        CALL Do_Err_Out ( errMsg, .TRUE., 1, fId, 0, 0, 0.0d0, 0.0d0)
     ENDIF
 
     ! Get the attribute
-    status = Nf_Get_Att_Real( fId, vId, attName, attValue )
+    status = Nf90_Get_Att( fId, vId, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_R4_arr: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -533,20 +534,20 @@ CONTAINS
     attValue = 0d0
 
     ! Check if VARNAME is a valid variable
-    status = Nf_Inq_Varid ( fId, varName, vId )
+    status = Nf90_Inq_Varid ( fId, varName, vId )
 
     ! Exit w/ error message if VARNAME is not valid
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_R8_arr: ' // TRIM( varName )        // &
-                 ', '                        // Nf_Strerror( status )
+                 ', '                        // Nf90_Strerror( status )
        CALL Do_Err_Out ( errMsg, .TRUE., 1, fId, 0, 0, 0.0d0, 0.0d0)
     ENDIF
 
     ! Get the attribute
-    status = Nf_Get_Att_Double( fId, vId, attName, attValue )
+    status = Nf90_Get_Att( fId, vId, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Var_Attr_R8_arr: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -600,10 +601,10 @@ CONTAINS
     attValue = ''
 
     ! Get the attribute
-    status = Nf_Get_Att_Text( fId, NF_GLOBAL, attName, attValue )
+    status = Nf90_Get_Att( fId, NF90_GLOBAL, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Glob_Attr_C: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -657,10 +658,10 @@ CONTAINS
     attValue = 0
 
     ! Get the attribute
-    status = Nf_Get_Att_Int( fId, NF_GLOBAL, attName, attValue )
+    status = Nf90_Get_Att( fId, NF90_GLOBAL, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Glob_Attr_I4: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -714,10 +715,10 @@ CONTAINS
     attValue = 0e0
 
     ! Get the attribute
-    status = Nf_Get_Att_Real( fId, NF_GLOBAL, attName, attValue )
+    status = Nf90_Get_Att( fId, NF90_GLOBAL, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Glob_Attr_R4: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -771,10 +772,10 @@ CONTAINS
     attValue = 0d0
 
     ! Get the attribute
-    status = Nf_Get_Att_Double( fId, NF_GLOBAL, attName, attValue )
+    status = Nf90_Get_Att( fId, NF90_GLOBAL, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Glob_Attr_R8: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -828,10 +829,10 @@ CONTAINS
     attValue = 0
 
     ! Get the attribute
-    status = Nf_Get_Att_Int( fId, NF_GLOBAL, attName, attValue )
+    status = Nf90_Get_Att( fId, NF90_GLOBAL, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Glob_Attr_I4_arr: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -885,10 +886,10 @@ CONTAINS
     attValue = 0e0
 
     ! Get the attribute
-    status = Nf_Get_Att_Real( fId, NF_GLOBAL, attName, attValue )
+    status = Nf90_Get_Att( fId, NF90_GLOBAL, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Glob_Attr_R4_arr: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -942,10 +943,10 @@ CONTAINS
     attValue = 0d0
 
     ! Get the attribute
-    status = Nf_Get_Att_Double( fId, NF_GLOBAL, attName, attValue )
+    status = Nf90_Get_Att( fId, NF90_GLOBAL, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        errMsg = 'In NcGet_Glob_Attr_R8_arr: cannot read attribute : ' // &
                  TRIM( attName )
        CALL Do_Err_Out( errMsg, .TRUE., 0, 0, 0, 0, 0.0d0, 0.0d0 )
@@ -1003,19 +1004,19 @@ CONTAINS
     attValue = ''
 
     ! Check if VARNAME is a valid variable
-    status = Nf_Inq_Varid ( fId, varName, vId )
+    status = Nf90_Inq_Varid ( fId, varName, vId )
 
     ! Exit w/ error message if VARNAME is not valid
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        RC = status
        RETURN
     ENDIF
 
     !  Get the attribute
-    status = Nf_Get_Att_Text( fId, vId, attName, attValue )
+    status = Nf90_Get_Att( fId, vId, attName, attValue )
 
     ! Exit w/ error message if unsuccessful
-    IF ( status /= NF_NOERR ) THEN
+    IF ( status /= NF90_NOERR ) THEN
        RC = status
        RETURN
     ENDIF
